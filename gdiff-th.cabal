@@ -41,6 +41,8 @@ source-repository head
 Library
   Hs-Source-Dirs: src
 
+  Build-Tools: cpphs
+
   Exposed-modules: Data.Generic.Diff.TH
 
   Other-modules: Data.Generic.Diff.TH.Conversion,
