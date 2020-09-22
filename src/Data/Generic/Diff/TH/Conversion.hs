@@ -4,7 +4,6 @@ module Data.Generic.Diff.TH.Conversion where
 import Data.Generic.Diff.TH.Types
 import qualified Language.Haskell.TH as TH
 import Language.Haskell.TH
-import Control.Applicative
 
 
 isPrimitive :: [Name] -> Name -> Bool
@@ -65,8 +64,8 @@ getNameAndFields con = case con of
 
 toFamType :: [Name] -> (Name -> Type -> Q Name) -> (TH.Type, Dec) -> Q FamType
 toFamType prims renamer (t, x) = case x of
-    DataD _ _ _ cons _   -> toFamType' prims renamer t cons
-    NewtypeD _ _ _ con _ -> toFamType' prims renamer t [con]
+    DataD _ _ _ _ cons _   -> toFamType' prims renamer t cons
+    NewtypeD _ _ _ _ con _ -> toFamType' prims renamer t [con]
     TySynD _ _ _         -> error $ "Logic error: all type declarations should be "++
                                          "converted to DataDecl or NewtypeDec"
     e                    -> error $ "unsuppored Dec: " ++ show e

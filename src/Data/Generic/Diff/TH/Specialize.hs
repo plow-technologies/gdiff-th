@@ -31,7 +31,7 @@ instance Applicative Q where
 --This is the main recursive function
 specializeChildDecs :: [Type] -> Name -> Context [(Type, Dec)]
 specializeChildDecs args n = do
-	--this is where I recurse
+    --this is where I recurse
     let go x = case x of
           a@(AppT _ _) -> uncurry specializeChildDecs . collectArgs $ a
           ConT conName -> specializeChildDecs [] conName
@@ -89,11 +89,11 @@ expandTypes = transformBiM expandSyns
 
 getTyVars :: Dec -> [TyVarBndr]
 getTyVars x = case x of
-    DataD _ _ tys _ _ -> tys
-    NewtypeD _ _ tys _ _ -> tys
+    DataD _ _ tys _ _ _ -> tys
+    NewtypeD _ _ tys _ _ _ -> tys
     TySynD _ tys _ -> tys
     ClassD _ _ tys _ _ -> tys
-    FamilyD _ _ tys _ -> tys
+    DataFamilyD _ tys _ -> tys
     _ -> []
 
 getTyName :: TyVarBndr -> Name

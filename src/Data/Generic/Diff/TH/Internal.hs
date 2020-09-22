@@ -147,7 +147,7 @@ mkGADTConstructor a b typ (FamCon {..}) = case _famConHardness of
                             (normalC _famConName [])
         Abstract -> forallC [] (sequence [equalP (varT a) (return typ), 
                             equalP (varT b) (conT ''Nil)]) 
-                           (normalC _famConName [return (NotStrict, ConT _famConOriginalName)]) 
+                           (normalC _famConName [return ((Bang NoSourceUnpackedness NoSourceStrictness), ConT _famConOriginalName)])
 
 mkGADT :: Fam -> Q Dec
 mkGADT (Fam {..}) = do
@@ -157,7 +157,7 @@ mkGADT (Fam {..}) = do
             concatMap (\(FamType {..}) -> map (mkGADTConstructor a b _famTypeType) _famTypeConstructors) 
                                     _famTypes 
 
-    dataD (return []) _famName [PlainTV a, PlainTV b] constrs []
+    dataD (return []) _famName [PlainTV a, PlainTV b] Nothing constrs []
 
 -- | The type of function used for naming the GADTs constructors
 --
